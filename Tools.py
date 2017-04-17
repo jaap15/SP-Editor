@@ -30,17 +30,21 @@ class Tools:
         if not imagePath:
             return
         self.openedImage = ImageProcessing(imagePath[0], self.root)
-        self.updateImage(self.openedImage.getTkImage())
+        self.updateImage(self.openedImage.getCvImg())
 
     def saveImage(self):
         filename = asksaveasfilename(parent=self.root,filetypes=[("PNG","*.png*"),("JPEG","*.jpg*")],initialfile= self.openedImage.getImageNameWithExtension(),defaultextension="*.*")
         print "Path to save"
         print filename
         if filename:
-            self.openedImage.saveImage(filename)
+            cv2.imwrite(filename, self.openedImage.getCvImg())
         pass
 
-    def updateImage(self, tkImage):
+    def updateImage(self, cvImg):
+        cvImg = cv2.cvtColor(cvImg, cv2.COLOR_BGR2RGB)
+        im = Image.fromarray(cvImg)
+        tkImage = ImageTk.PhotoImage(image=im)
+
         self.imageLabel.configure(image=tkImage)
         self.imageLabel.image = tkImage
         self.imageLabel.pack()

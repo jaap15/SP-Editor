@@ -20,9 +20,7 @@ class ImageProcessing:
         self.root = root
 
         self.imageName, self.extension = os.path.splitext(imageFullPath)
-
-        self.cvimg = cv2.imread(self.imageFullPath,cv2.IMREAD_COLOR)
-        self.cvimg = cv2.cvtColor(self.cvimg, cv2.COLOR_BGR2RGB)
+        self.cvimg = cv2.imread(self.imageFullPath)
 
     def getTkImage(self):
         im = Image.fromarray(self.cvimg)
@@ -43,7 +41,3 @@ class ImageProcessing:
 
     def getImageNameWithExtension(self):
         return self.imageName + self.extension
-
-    def saveImage(self, filename):
-        self.cvimg = cv2.cvtColor(self.cvimg, cv2.COLOR_RGB2BGR)
-        cv2.imwrite(filename, self.cvimg)
