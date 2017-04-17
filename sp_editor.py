@@ -28,6 +28,9 @@ class SpEditor(tk.Tk):
         self.fileMenu.add_command(label= "Open", command=self.openImage)
 
         self.fileMenu.add_separator()
+        self.fileMenu.add_command(label="Save As", command=self.saveImage)
+
+        self.fileMenu.add_separator()
         self.fileMenu.add_command(label= "Exit", command=self.quit)
 
         self.editMenu = tk.Menu(self.menu)
@@ -38,8 +41,10 @@ class SpEditor(tk.Tk):
 
     def openImage(self):
         self.tools.openImage()
-        print "in sp editor"
-        print self.tools.getImagePath()
+
+    def saveImage(self):
+        self.tools.saveImage()
+        pass
 
 
     def quit(self):

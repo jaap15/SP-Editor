@@ -5,7 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ImageProcessing import ImageProcessing
 
-from tkFileDialog import askopenfilenames
+# from tkFileDialog import askopenfilenames
+from tkFileDialog import *
 
 class Tools:
     root = None
@@ -15,34 +16,34 @@ class Tools:
     img = None
     positionOffset = 40
     imageLabel = None
+    openedImage = None
 
     def __init__(self, root):
         print "In constructor"
         self.root = root
-        self.imageLabel = Label(self.root)
+        self.imageLabel = Label(self.root, image=None)
 
     def openImage(self):
-        self.imagePath = askopenfilenames(parent=self.root,filetypes=[("JPEG","*.jpg*"),("PNG","*.png*")])
-        print self.imagePath
+        imagePath = askopenfilenames(parent=self.root,filetypes=[("JPEG","*.jpg*"),("PNG","*.png*")])
+        print imagePath
 
-        if not self.imagePath:
+        if not imagePath:
             return
+        self.openedImage = ImageProcessing(imagePath[0], self.root)
+        self.updateImage(self.openedImage.getTkImage())
 
-        cvimg = cv2.imread(self.imagePath[0], cv2.IMREAD_GRAYSCALE)
-        im = Image.fromarray(cvimg)
-        self.img = ImageTk.PhotoImage(image=im)
-        self.imageLabel = Label(self.root, image=self.img)
-        self.imageLabel.pack()
-        openedImage = ImageProcessing()
-        # self.updateImage(openedImage.getTkImage())
-
+    def saveImage(self):
+        filename = asksaveasfilename(parent=self.root,filetypes=[("PNG","*.png*"),("JPEG","*.jpg*")],initialfile= self.openedImage.getImageNameWithExtension(),defaultextension="*.*")
+        print "Path to save"
+        print filename
+        if filename:
+            self.openedImage.saveImage(filename)
+        pass
 
     def updateImage(self, tkImage):
         self.imageLabel.configure(image=tkImage)
         self.imageLabel.image = tkImage
-
-    def getImagePath(self):
-        return self.imagePath
+        self.imageLabel.pack()
 
     def adjustWindowSizeToImage(self):
         pass
