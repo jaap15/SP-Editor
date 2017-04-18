@@ -42,15 +42,14 @@ class SpEditor(tk.Tk):
         self.filterMenu = tk.Menu(self.menu)
         self.menu.add_cascade(label="Filters", menu=self.filterMenu)
 
-        self.filterMenu.add_command(label="Big Eyes", command=self.applyFilter)
+        self.filterMenu.add_command(label="Stressed Eyes", command=self.bigEyeFilter)
+
+        self.filterMenu.add_command(label="In Love", command=self.inLoveFilter)
+
+        self.filterMenu.add_command(label="Cartoon Eye", command=self.cartoonEyeFilter)
 
         self.filterMenu.add_command(label="Remove Filter", command=self.rmFilter)
 
-        #Testing canvas
-        # self.canvas = Canvas(self)
-        # self.canvas.grid(row=0,column=0)
-        # self.photo = ImageTk.PhotoImage(Image.open("watch.jpg"))
-        # self.canvas.create_image(50,50,image=self.photo)
 
     def openImage(self):
         self.tools.openImage()
@@ -59,8 +58,14 @@ class SpEditor(tk.Tk):
         self.tools.saveImage()
         pass
 
-    def applyFilter(self):
-        self.tools.addEyeFilter()
+    def bigEyeFilter(self):
+        self.tools.addEyeFilter("stressedEye")
+
+    def inLoveFilter(self):
+        self.tools.addEyeFilter("inLove")
+
+    def cartoonEyeFilter(self):
+        self.tools.addEyeFilter("cartoonEye")
 
     def rmFilter(self):
         self.tools.removeFilter()

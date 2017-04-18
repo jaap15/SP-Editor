@@ -60,7 +60,7 @@ class Tools:
     def adjustWindowSizeToImage(self):
         pass
 
-    def addEyeFilter(self):
+    def addEyeFilter(self, selected):
         print "Inside adding eye filter"
         self.imageLabel.pack_forget()
         self.openedImage.clearFaces()
@@ -91,7 +91,7 @@ class Tools:
                 print "ex:" + str(eye['ex']) + " ey:" + str(eye['ey']) + " ew:" + str(eye['ew']) + " eh:" + str(eye['eh'])
                 avgX = ((face['fx'] + eye['ex']) + (face['fx'] + eye['ex'] + eye['ew']))/2
                 avgY = ((face['fy'] + eye['ey']) + (face['fy'] + eye['ey'] + eye['eh'])) / 2
-                image = Image.open("Images/Filters/Eyes/eye1.png")
+                image = Image.open("Images/Filters/Eyes/" + selected + ".png")
                 image.thumbnail((eye['ew'],eye['eh']), Image.ANTIALIAS)
                 self.appliedFilters.append(ImageTk.PhotoImage(image=image))
                 self.canvas.create_image(avgX, avgY, image=self.appliedFilters[i])
