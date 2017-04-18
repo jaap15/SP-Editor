@@ -48,6 +48,10 @@ class ImageProcessing:
             i = i + 1
         pass
 
+    def clearFaces(self):
+
+        del self.facesList[:]
+
     def getDetectedFaces(self):
         return self.facesList
 

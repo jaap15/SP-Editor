@@ -7,6 +7,7 @@ from ImageProcessing import ImageProcessing
 
 # from tkFileDialog import askopenfilenames
 from tkFileDialog import *
+import io
 
 class Tools:
     root = None
@@ -29,6 +30,9 @@ class Tools:
 
         if not imagePath:
             return
+        # self.canvas.
+        self.canvas = None
+        self.openedImage = None
         self.openedImage = ImageProcessing(imagePath[0], self.root)
         self.updateImage(self.openedImage.getCvImg())
 
@@ -41,6 +45,10 @@ class Tools:
         pass
 
     def updateImage(self, cvImg):
+        if cv2 == "":
+            self.imageLabel.configure(image="")
+            # self.imageLabel.image = tkImage
+            self.imageLabel.pack()
         cvImg = cv2.cvtColor(cvImg, cv2.COLOR_BGR2RGB)
         im = Image.fromarray(cvImg)
         tkImage = ImageTk.PhotoImage(image=im)
@@ -54,6 +62,8 @@ class Tools:
 
     def addEyeFilter(self):
         print "Inside adding eye filter"
+        self.imageLabel.pack_forget()
+        self.openedImage.clearFaces()
         self.openedImage.detectFaces()
         self.fList = self.openedImage.getDetectedFaces()
 
@@ -61,10 +71,12 @@ class Tools:
         print "Height:" + str(imgHeight) + " Width:" + str(imgWidth)
         cvImg = cv2.cvtColor(self.openedImage.getCvImg(), cv2.COLOR_BGR2RGB)
         im = Image.fromarray(cvImg)
+
         self.canvas = Canvas(self.root, height=imgHeight, width=imgWidth)
         self.canvas.grid()
 
         self.backgnd = ImageTk.PhotoImage(image=im)
+
         self.appliedFilters = []
 
         backgnd_width = (self.backgnd.width() / 2)
@@ -85,3 +97,11 @@ class Tools:
                 self.canvas.create_image(avgX, avgY, image=self.appliedFilters[i])
                 i = i + 1
         pass
+
+    def removeFilter(self):
+        del self.appliedFilters[:]
+        self.backgnd = None
+        del self.backgnd
+        self.canvas.destroy()
+        self.canvas = None
+        self.updateImage(self.openedImage.getCvImg())

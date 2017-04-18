@@ -44,6 +44,8 @@ class SpEditor(tk.Tk):
 
         self.filterMenu.add_command(label="Big Eyes", command=self.applyFilter)
 
+        self.filterMenu.add_command(label="Remove Filter", command=self.rmFilter)
+
         #Testing canvas
         # self.canvas = Canvas(self)
         # self.canvas.grid(row=0,column=0)
@@ -59,6 +61,9 @@ class SpEditor(tk.Tk):
 
     def applyFilter(self):
         self.tools.addEyeFilter()
+
+    def rmFilter(self):
+        self.tools.removeFilter()
 
     def quit(self):
         print("Closing Program...")
