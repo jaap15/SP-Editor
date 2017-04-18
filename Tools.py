@@ -65,19 +65,23 @@ class Tools:
         self.canvas.grid()
 
         self.backgnd = ImageTk.PhotoImage(image=im)
+        self.appliedFilters = []
 
-        self.filterImage = ImageTk.PhotoImage(file="Images/Filters/Eyes/eye.png")
         backgnd_width = (self.backgnd.width() / 2)
         backgnd_height = (self.backgnd.height() / 2)
         self.canvas.create_image(backgnd_width, backgnd_height, image=self.backgnd)
 
         print "Entering for loop"
+        i = 0
         for face in self.fList:
             print "x:" + str(face['fx']) + " y:" + str(face['fy']) + " w:" + str(face['fw']) + " h:" + str(face['fh'])
             for eye in face['eyes']:
                 print "ex:" + str(eye['ex']) + " ey:" + str(eye['ey']) + " ew:" + str(eye['ew']) + " eh:" + str(eye['eh'])
                 avgX = ((face['fx'] + eye['ex']) + (face['fx'] + eye['ex'] + eye['ew']))/2
                 avgY = ((face['fy'] + eye['ey']) + (face['fy'] + eye['ey'] + eye['eh'])) / 2
-                self.canvas.create_image(avgX, avgY, image=self.filterImage)
-
+                image = Image.open("Images/Filters/Eyes/eye1.png")
+                image.thumbnail((eye['ew'],eye['eh']), Image.ANTIALIAS)
+                self.appliedFilters.append(ImageTk.PhotoImage(image=image))
+                self.canvas.create_image(avgX, avgY, image=self.appliedFilters[i])
+                i = i + 1
         pass
