@@ -13,7 +13,10 @@ class SpEditor(tk.Tk):
     menu = None
     fileMenu = None
     editMenu = None
+    filterMenu = None
     tools = None
+    canvas = None
+    photo = None
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -36,8 +39,16 @@ class SpEditor(tk.Tk):
         self.editMenu = tk.Menu(self.menu)
         self.menu.add_cascade(label="Edit", menu=self.editMenu)
 
+        self.filterMenu = tk.Menu(self.menu)
+        self.menu.add_cascade(label="Filters", menu=self.filterMenu)
 
-        pass
+        self.filterMenu.add_command(label="Big Eyes", command=self.applyFilter)
+
+        #Testing canvas
+        # self.canvas = Canvas(self)
+        # self.canvas.grid(row=0,column=0)
+        # self.photo = ImageTk.PhotoImage(Image.open("watch.jpg"))
+        # self.canvas.create_image(50,50,image=self.photo)
 
     def openImage(self):
         self.tools.openImage()
@@ -46,6 +57,8 @@ class SpEditor(tk.Tk):
         self.tools.saveImage()
         pass
 
+    def applyFilter(self):
+        self.tools.addEyeFilter()
 
     def quit(self):
         print("Closing Program...")
